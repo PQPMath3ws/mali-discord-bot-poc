@@ -1,10 +1,18 @@
 {
     "compilerOptions": {
-        "target": "es2020",
+        "baseUrl": "sources",
+        "esModuleInterop": true,
+        "module": "commonjs",
+        "noImplicitAny": true,
         "outDir": "dist",
-        "esModuleInterop": true
+        "paths": {
+            "@/*": ["*"]
+        },
+        "rootDirs": ["sources"],
+        "target": "es2020"
     },
     "ts-node": {
         "esm": true
-    }
+    },
+    "include": ["sources"]
 }
