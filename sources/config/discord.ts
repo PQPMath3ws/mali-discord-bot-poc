@@ -1,4 +1,4 @@
-import { Client, Collection, Events, GatewayIntentBits, MessageContextMenuCommandInteraction, Partials } from "discord.js";
+import { Client, Events, GatewayIntentBits, MessageContextMenuCommandInteraction, Partials } from "discord.js";
 
 import { refreshBotCommands } from "./deploy_discord_commands";
 import { CommandList } from "../commands/index";
@@ -13,7 +13,7 @@ export async function initializeDiscordBot():Promise<void> {
         await refreshBotCommands(client.guilds.cache.map(guild => guild.id));
     });
 
-    client.once(Events.InteractionCreate, async (interaction: MessageContextMenuCommandInteraction):Promise<void> => {
+    client.on("interactionCreate", async (interaction: MessageContextMenuCommandInteraction):Promise<void> => {
         if (interaction.isCommand()) {
             for (const command of CommandList) {
                 if (command.data.name === interaction.commandName) {
