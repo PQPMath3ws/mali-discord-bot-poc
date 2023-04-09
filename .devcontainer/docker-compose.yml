@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  malibot-app:
+    container_name: malibot-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/workspace:cached
+      - ~/.ssh:/root/.ssh
+      - ./startup.sh:/docker-entrypoint-initdb.d/startup.sh
+    command: bash -c "/docker-entrypoint-initdb.d/startup.sh && sleep infinity"
+    ports:
+      - 5000:5000
+    networks:
+      - malibot-network
+    links:
+      - malibot-postgres
+      - malibot-pgadmin4
+
+  malibot-postgres:
+    container_name: malibot-postgres
+    image: postgres:latest
+    restart: unless-stopped
+    volumes:
+      - malibot-postgres-data:/var/lib/postgresql/data
+      - ./createdbs.sh:/docker-entrypoint-initdb.d/createdbs.sh
+    environment:
+      POSTGRES_PASSWORD: malibotsecretpassword
+      POSTGRES_USER: malibot
+      POSTGRES_DB: postgres
+      POSTGRES_DATABASES: malibot_db
+    ports:
+      - 5432:5432
+    networks:
+      - malibot-network
+  
+  malibot-pgadmin4:
+    container_name: malibot-pgadmin4
+    image: dpage/pgadmin4:latest
+    restart: unless-stopped
+    volumes:
+      - malibot-pgadmin4-data:/var/lib/pgadmin4/data
+    environment:
+      PGADMIN_DEFAULT_EMAIL: malibot@admin.com
+      PGADMIN_DEFAULT_PASSWORD: malibotadmin
+      MAX_LOGIN_ATTEMPTS: 5
+    ports:
+      - 4001:4001
+      - 4002:4002
+    networks:
+      - malibot-network
+
+volumes:
+  malibot-postgres-data:
+  malibot-pgadmin4-data:
+
+networks:
+  malibot-network:
+    driver: bridge

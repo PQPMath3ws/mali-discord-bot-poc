@@ -1,0 +1,20 @@
+{
+    "name": "MaLi Discord BOT (PoC)",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "malibot-app",
+    "workspaceFolder": "/workspace",
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.profiles.linux": {
+                    "zsh": {
+                        "path": "/usr/bin/zsh"
+                    }
+                },
+                "terminal.integrated.defaultProfile.linux": "zsh"
+            }
+        }
+    },
+    "remoteUser": "root",
+	"containerUser": "root"
+}
