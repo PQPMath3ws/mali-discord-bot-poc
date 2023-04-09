@@ -19,6 +19,9 @@ export async function initializeExpressServer():Promise<void> {
         app.use(cors());
         app.use(express.json());
 
+        app.engine('html', require("ejs").renderFile);
+        app.set('view engine', 'html');
+
         app.use(IndexRoutes);
 
         server = app.listen(process.env.APP_PORT || 5000);
