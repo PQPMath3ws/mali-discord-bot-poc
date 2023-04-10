@@ -6,46 +6,14 @@ on:
 
 jobs:
   build:
-    env:
-      APP_PORT: 5000
-      DATABASE_URL: postgresql://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DATABASE}?schema=public
-      DISCORD_BOT_CLIENT_ID: ${{ secrets.DISCORD_BOT_CLIENT_ID }}
-      DISCORD_BOT_PUBLIC_KEY: ${{ secrets.DISCORD_BOT_PUBLIC_KEY }}
-      DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
-      POSTGRES_USERNAME: ${{ secrets.POSTGRES_USERNAME }}
-      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-      POSTGRES_HOST: malibot-postgres
-      POSTGRES_PORT: 5432
-      POSTGRES_DATABASE: malibot_db
-      IMAGE_NAME: malibot
     name: Build Compose Containers
     runs-on: ubuntu-latest
     environment: production
     steps:
-      - name: Lowercase Owner Name
-        run: echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
-        env:
-          OWNER: '${{ github.repository_owner }}'
-
-      - name: Check Out Repo 
-        uses: actions/checkout@v2
-
-      - name: Cache Docker layers
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
-
-      - name: Deploy Containers
-        uses: TapTap21/docker-remote-deployment-action@v1.1
-        with:
-          remote_docker_host: ${{ secrets.REMOTE_DOCKER_HOST }}
-          ssh_private_key: ${{ secrets.S_PRIVATE }}
-          ssh_public_key: ${{ secrets.S_PUBLIC }}
-          stack_file_name: docker-compose.yml
-          docker_login_password: ${{ secrets.MY_TOKEN }}
-          docker_login_user: ${{ env.OWNER_LC }}
-          docker_login_registry : ghcr.io
-          args: -p malibot-app -d
+      - name: Deploy Project Direct to SSH Host
+        shell: bash
+        run: |
+          mkdir ~/.ssh
+          echo ${{ secrets.S_PRIVATE }} > ~/.ssh/id_ed25519
+          echo ${{ secrets.S_PUBLIC }} > ~/.ssh/id_ed25519.pub
+          ssh ${{ secrets.REMOTE_DOCKER_HOST }} "git clone https://github.com/PQPMath3ws/mali-discord-bot-poc.git && cd mali-discord-bot-poc && echo "APP_PORT=5000\nDATABASE_URL=postgresql://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DATABASE}?schema=public\nDISCORD_BOT_CLIENT_ID=${{ secrets.DISCORD_BOT_CLIENT_ID }}\nDISCORD_BOT_PUBLIC_KEY=${{ secrets.DISCORD_BOT_PUBLIC_KEY }}\nDISCORD_BOT_TOKEN=${{ secrets.DISCORD_BOT_TOKEN }}\nPOSTGRES_USERNAME=${{ secrets.POSTGRES_USERNAME }}\nPOSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}\nPOSTGRES_HOST=malibot-postgres\nPOSTGRES_PORT=5432\nPOSTGRES_DATABASE=malibot_db" > .env && docker-compose up -d"
