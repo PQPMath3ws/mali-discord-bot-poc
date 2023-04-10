@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model JoinedServers {
+  server_id BigInt @id @unique
+  server_name String @db.VarChar(100)
+  joined_at DateTime @default(now())
+  owner_id BigInt
+
+  @@map("joined_servers")
+}
+
+model LeavedServers {
+  server_id BigInt @id @unique
+  server_name String @db.VarChar(100)
+  leaved_at DateTime @default(now())
+  owner_id BigInt
+
+  @@map("leaved_servers")
+}
+
+model ActivityLogs {
+  id BigInt @id @unique @default(autoincrement())
+  user_id BigInt
+  server_id BigInt
+  command_name String? @db.VarChar(40)
+  activity_description String @db.VarChar(255)
+  server_name String @db.VarChar(100)
+  created_at DateTime @default(now())
+
+  @@map("activity_logs")
+}

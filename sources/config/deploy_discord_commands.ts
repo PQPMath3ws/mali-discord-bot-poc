@@ -26,15 +26,16 @@ export async function refreshBotCommands(guildsIds: Array<string>):Promise<void>
     try {
         console.log(`Atualizando todos os ${commands.length} comandos do bot nos ${guildsIds.length} servers em que ele está, aguarde...`);
 
-        guildsIds.forEach(async (guildId: string, index:number):Promise<void> => {
+        guildsIds.forEach(async (guildId: string):Promise<void> => {
             await rest.put(
                 Routes.applicationGuildCommands(process.env.DISCORD_BOT_CLIENT_ID, guildId),
                 {
                     body: commands
                 }
             );
-            console.log(`${index  + 1}º servidor atualizado.`);
         });
+
+        console.log("Payloads de atualização dos comandos do bot nos servidores enviado com sucesso!");
     } catch (error) {
         console.error(error);
     }

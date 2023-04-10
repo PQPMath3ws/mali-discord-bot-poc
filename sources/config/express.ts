@@ -1,6 +1,7 @@
 import cors from "cors";
 import express from "express";
 
+import { disconnectDatabase } from "./database";
 import IndexRoutes from "../routes/index";
 
 const app = express();
@@ -8,6 +9,7 @@ let server:any = null;
 
 async function onShutDownServer():Promise<void> {
     if (server) {
+        await disconnectDatabase();
         server.close(() => {
             process.exit(0);
         });

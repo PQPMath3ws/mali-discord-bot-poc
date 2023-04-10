@@ -5,7 +5,8 @@
   "main": "dist/index.ts",
   "scripts": {
     "start": "node ./dist/index.js",
-    "dev": "NODE_ENV=development nodemon --watch 'sources/' --exec 'ts-node ./sources/index.ts' -e ts"
+    "dev": "NODE_ENV=development nodemon --watch 'sources/' --exec 'ts-node ./sources/index.ts' -e ts",
+    "prisma-migration": "prisma migrate dev"
   },
   "keywords": [
     "node",
