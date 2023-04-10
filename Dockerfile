@@ -7,8 +7,8 @@ COPY . .
 
 RUN npm install
 
-RUN npm run prisma-migration
-
 EXPOSE 5000
+
+CMD [ "npm", "run", "prisma-migration" ]
 
 CMD [ "node", "./dist/index.js" ]
