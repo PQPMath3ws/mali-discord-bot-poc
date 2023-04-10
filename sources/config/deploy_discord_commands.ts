@@ -17,7 +17,7 @@ export async function refreshBotCommands(guildsIds: Array<string>):Promise<void>
         for (const commandFile of commandFiles) {
             const filePath = path.join(commandsPath, commandFile);
             const command:Command = (await import(filePath))[commandFile.replace(".ts", "")] as Command;
-            commands.push(command.data.toJSON());
+            if (command) commands.push(command.data.toJSON());
         }
     }
     
