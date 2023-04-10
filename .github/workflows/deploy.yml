@@ -28,7 +28,7 @@ jobs:
           OWNER: '${{ github.repository_owner }}'
 
       - name: Deploy Containers
-        uses: TapTap21/docker-remote-deployment-action@v1.0
+        uses: TapTap21/docker-remote-deployment-action@v1.1
         with:
           remote_docker_host: ${{ secrets.REMOTE_DOCKER_HOST }}
           ssh_private_key: ${{ secrets.S_PRIVATE }}
@@ -36,5 +36,5 @@ jobs:
           stack_file_name: docker-compose.yml
           docker_login_password: ${{ secrets.S_DOCKER }}
           docker_login_user: ${{ env.OWNER_LC }}
-          docker_login_registry : ${{ steps.login-ecr.outputs.registry }}
+          docker_login_registry : ghcr.io
           args: -p malibot-app -d
