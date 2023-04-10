@@ -18,16 +18,16 @@ env:
   IMAGE_NAME: malibot
 
 jobs:
-  lowercaseowner:
-    name: set lower case owner name
-    run: echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
-    env:
-      OWNER: '${{ github.repository_owner }}'
   build:
     name: Build DevContainer
     runs-on: ubuntu-latest
     environment: Production
     steps:
+
+      - name: set lower case owner name
+        run: echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
+        env:
+          OWNER: '${{ github.repository_owner }}'
     
       - name: Check Out Repo 
         uses: actions/checkout@v2     
