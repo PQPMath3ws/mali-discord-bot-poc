@@ -15,7 +15,6 @@ env:
   POSTGRES_HOST: malibot-postgres
   POSTGRES_PORT: 5432
   POSTGRES_DATABASE: malibot_db
-  IMAGE_NAME: malibot
 
 jobs:
   build:
@@ -54,7 +53,7 @@ jobs:
           file: ./Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/${{env.IMAGE_NAME}}:latest
+          tags: ghcr.io/${{ github.repository_owner }}/malibot:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
 
