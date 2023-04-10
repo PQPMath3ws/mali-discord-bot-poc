@@ -1,4 +1,5 @@
 import { Prisma } from "@prisma/client";
+
 import { getPrismaClient } from "../config/database";
 
 export async function removeLeavedGroup(server_id: number):Promise<void> {
@@ -59,4 +60,9 @@ export async function leaveGroup(server_id: number, server_name:string, owner_id
             }
         })
     ]);
+}
+
+export async function countGroups():Promise<number> {
+    const groupsCount = await getPrismaClient().joinedServers.count();
+    return groupsCount;
 }
