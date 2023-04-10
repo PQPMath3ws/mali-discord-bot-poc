@@ -27,6 +27,17 @@ jobs:
         env:
           OWNER: '${{ github.repository_owner }}'
 
+      - name: Check Out Repo 
+        uses: actions/checkout@v2
+
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
       - name: Deploy Containers
         uses: TapTap21/docker-remote-deployment-action@v1.1
         with:
@@ -34,7 +45,7 @@ jobs:
           ssh_private_key: ${{ secrets.S_PRIVATE }}
           ssh_public_key: ${{ secrets.S_PUBLIC }}
           stack_file_name: docker-compose.yml
-          docker_login_password: ${{ secrets.S_DOCKER }}
+          docker_login_password: ${{ secrets.MY_TOKEN }}
           docker_login_user: ${{ env.OWNER_LC }}
           docker_login_registry : ghcr.io
           args: -p malibot-app -d
