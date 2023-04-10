@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  malibot-app:
+    container_name: malibot-app
+    command: bash -c "npm install && npm run prisma-migration && npx tsc && node ./dist/index.js && sleep infinity"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/workspace:cached
+    ports:
+      - 5000:5000
+    networks:
+      - malibot-network
+    links:
+      - malibot-postgres
+
+  malibot-postgres:
+    container_name: malibot-postgres
+    image: postgres:latest
+    restart: unless-stopped
+    volumes:
+      - malibot-postgres-data:/var/lib/postgresql/data
+      - ./createdbs.sh:/docker-entrypoint-initdb.d/createdbs.sh
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_DATABASES: ${POSTGRES_DATABASES}
+    ports:
+      - 5432:5432
+    networks:
+      - malibot-network
+
+volumes:
+  malibot-postgres-data:
+
+networks:
+  malibot-network:
+    driver: bridge
