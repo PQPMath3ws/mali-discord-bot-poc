@@ -2,7 +2,7 @@ import { Client, Events, GatewayIntentBits, Guild, MessageContextMenuCommandInte
 
 import { refreshBotCommands } from "./deploy_discord_commands";
 import { CommandList } from "../commands/index";
-import { joinGroup, leaveGroup, removeJoinedGroup, removeLeavedGroup } from "../services/groups";
+import { joinGroup, leaveGroup, removeJoinedGroup, removeLeavedGroup, updateJoinedGroup } from "../services/groups";
 import { registerLog } from "../services/logs";
 
 let client:Client;
@@ -28,6 +28,10 @@ export async function initializeDiscordBot():Promise<void> {
         await leaveGroup(Number(guild.id), guild.name, Number(guild.ownerId));
         await registerLog(Number(guild.ownerId), Number(guild.id), null, `Saí do servidor ${guild.name}!`, guild.name);
         console.log(`No grupo ${guild.name}, fui de comes e bebes...`);
+    });
+
+    client.once(Events.GuildUpdate, async (guild: Guild) => {
+        await updateJoinedGroup(Number(guild.id), guild.name, Number(guild.ownerId));
     });
 
     client.on("interactionCreate", async (interaction: MessageContextMenuCommandInteraction):Promise<void> => {

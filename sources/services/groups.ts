@@ -50,6 +50,20 @@ export async function removeJoinedGroup(server_id: number):Promise<void> {
     }
 }
 
+export async function updateJoinedGroup(server_id: number, server_name:string, owner_id:number):Promise<void> {
+    await getPrismaClient().$transaction([
+        getPrismaClient().joinedServers.update({
+            data: {
+                server_name,
+                owner_id
+            },
+            where: {
+                server_id
+            }
+        })
+    ]);
+}
+
 export async function leaveGroup(server_id: number, server_name:string, owner_id:number):Promise<void> {
     await getPrismaClient().$transaction([
         getPrismaClient().leavedServers.create({
