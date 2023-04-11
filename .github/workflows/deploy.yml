@@ -34,7 +34,16 @@ jobs:
             docker image rm mali-discord-bot-poc_malibot-app postgres
             docker volume rm mali-discord-bot-poc_malibot-postgres-data
             sudo rm -f -r mali-discord-bot-poc
+            EXPORT APP_PORT=$APP_PORT
+            EXPORT DISCORD_BOT_CLIENT_ID=$DISCORD_BOT_CLIENT_ID
+            EXPORT DISCORD_BOT_PUBLIC_KEY=$DISCORD_BOT_PUBLIC_KEY
+            EXPORT DISCORD_BOT_TOKEN=$DISCORD_BOT_TOKEN
+            EXPORT POSTGRES_USERNAME=$POSTGRES_USERNAME
+            EXPORT POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+            EXPORT POSTGRES_HOST=$POSTGRES_HOST
+            EXPORT POSTGRES_PORT=$POSTGRES_PORT
+            EXPORT POSTGRES_DATABASE=$POSTGRES_DATABASE
+            EXPORT DATABASE_URL=$DATABASE_URL
             git clone https://github.com/PQPMath3ws/mali-discord-bot-poc.git
             cd mali-discord-bot-poc
-            ./createenv.sh $APP_PORT $DISCORD_BOT_CLIENT_ID $DISCORD_BOT_PUBLIC_KEY $DISCORD_BOT_TOKEN $POSTGRES_USERNAME $POSTGRES_PASSWORD $POSTGRES_HOST $POSTGRES_PORT $POSTGRES_DATABASE $DATABASE_URL
             docker-compose up --build -d
