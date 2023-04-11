@@ -24,14 +24,14 @@ jobs:
             sudo rm -f -r mali-discord-bot-poc
             EXPORT APP_PORT=5000
             EXPORT DISCORD_BOT_CLIENT_ID=${{ secrets.DISCORD_BOT_CLIENT_ID }}
-            EXPORT DISCORD_BOT_PUBLIC_KEY=${DISCORD_BOT_PUBLIC_KEY}
-            EXPORT DISCORD_BOT_TOKEN=${{ secrets.DISCORD_BOT_PUBLIC_KEY }}
+            EXPORT DISCORD_BOT_PUBLIC_KEY=${{ secrets.DISCORD_BOT_PUBLIC_KEY }}
+            EXPORT DISCORD_BOT_TOKEN=${{ secrets.DISCORD_BOT_TOKEN }}
             EXPORT POSTGRES_USERNAME=${{ secrets.POSTGRES_USERNAME }}
             EXPORT POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
             EXPORT POSTGRES_HOST=malibot-postgres
             EXPORT POSTGRES_PORT=5432
             EXPORT POSTGRES_DATABASE=malibot_db
-            EXPORT DATABASE_URL=postgresql://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DATABASE}?schema=public
+            EXPORT DATABASE_URL=postgresql://${{ secrets.POSTGRES_USERNAME }}:${{ secrets.POSTGRES_PASSWORD }}@malibot-postgres:5432/malibot_db?schema=public
             git clone https://github.com/PQPMath3ws/mali-discord-bot-poc.git
             cd mali-discord-bot-poc
             docker-compose up --build -d
