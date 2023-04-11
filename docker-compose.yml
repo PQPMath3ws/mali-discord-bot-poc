@@ -9,6 +9,11 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./:/workspace:cached
+    environment:
+      DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN}
+      DISCORD_BOT_CLIENT_ID: ${DISCORD_BOT_CLIENT_ID}
+      APP_PORT: ${APP_PORT}
+      DATABASE_URL: ${DATABASE_URL}
     ports:
       - 5000:5000
     networks:

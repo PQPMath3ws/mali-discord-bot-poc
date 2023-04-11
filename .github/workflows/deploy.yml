@@ -36,5 +36,4 @@ jobs:
             sudo rm -f -r mali-discord-bot-poc
             git clone https://github.com/PQPMath3ws/mali-discord-bot-poc.git
             cd mali-discord-bot-poc
-            npx dotenv -e ~/mali-discord-bot-poc/.env -- npx prisma db pull
             docker-compose up --build -d
