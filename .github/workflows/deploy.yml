@@ -12,38 +12,26 @@ jobs:
     steps:
       - name: Deploy Project Direct to SSH Host
         uses: appleboy/ssh-action@v0.1.9
-        env:
-          APP_PORT: 5000
-          DISCORD_BOT_CLIENT_ID: ${{ secrets.DISCORD_BOT_CLIENT_ID }}
-          DISCORD_BOT_PUBLIC_KEY: ${{ secrets.DISCORD_BOT_PUBLIC_KEY }}
-          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
-          POSTGRES_USERNAME: ${{ secrets.POSTGRES_USERNAME }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_HOST: malibot-postgres
-          POSTGRES_PORT: 5432
-          POSTGRES_DATABASE: malibot_db
-          DATABASE_URL: postgresql://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DATABASE}?schema=public
         with:
           host: ${{ secrets.REMOTE_DOCKER_HOST }}
           username: ${{ secrets.REMOTE_DOCKER_USER }}
           key: ${{ secrets.S_PRIVATE }}
-          envs: APP_PORT,DISCORD_BOT_CLIENT_ID,DISCORD_BOT_PUBLIC_KEY,DISCORD_BOT_TOKEN,POSTGRES_USERNAME,POSTGRES_PASSWORD,POSTGRES_HOST,POSTGRES_PORT,POSTGRES_DATABASE,DATABASE_URL
           script: |
             docker container stop malibot-app malibot-postgres
             docker container rm malibot-app malibot-postgres
             docker image rm mali-discord-bot-poc_malibot-app postgres
             docker volume rm mali-discord-bot-poc_malibot-postgres-data
             sudo rm -f -r mali-discord-bot-poc
-            EXPORT APP_PORT=${APP_PORT}
-            EXPORT DISCORD_BOT_CLIENT_ID=${DISCORD_BOT_CLIENT_ID}
+            EXPORT APP_PORT=5000
+            EXPORT DISCORD_BOT_CLIENT_ID=${{ secrets.DISCORD_BOT_CLIENT_ID }}
             EXPORT DISCORD_BOT_PUBLIC_KEY=${DISCORD_BOT_PUBLIC_KEY}
-            EXPORT DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN}
-            EXPORT POSTGRES_USERNAME=${POSTGRES_USERNAME}
-            EXPORT POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-            EXPORT POSTGRES_HOST=${POSTGRES_HOST}
-            EXPORT POSTGRES_PORT=${POSTGRES_PORT}
-            EXPORT POSTGRES_DATABASE=${POSTGRES_DATABASE}
-            EXPORT DATABASE_URL=${DATABASE_URL}
+            EXPORT DISCORD_BOT_TOKEN=${{ secrets.DISCORD_BOT_PUBLIC_KEY }}
+            EXPORT POSTGRES_USERNAME=${{ secrets.POSTGRES_USERNAME }}
+            EXPORT POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+            EXPORT POSTGRES_HOST=malibot-postgres
+            EXPORT POSTGRES_PORT=5432
+            EXPORT POSTGRES_DATABASE=malibot_db
+            EXPORT DATABASE_URL=postgresql://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DATABASE}?schema=public
             git clone https://github.com/PQPMath3ws/mali-discord-bot-poc.git
             cd mali-discord-bot-poc
             docker-compose up --build -d
