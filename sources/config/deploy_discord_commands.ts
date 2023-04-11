@@ -8,15 +8,21 @@ export async function refreshBotCommands(guildsIds: Array<string>):Promise<void>
     const commands:Array<RESTPostAPIChatInputApplicationCommandsJSONBody> = [];
     
     const commandsFolderPath = path.join(__dirname + "/../commands");
-    const commandsFolders = fs.readdirSync(commandsFolderPath).filter(value => value !== "index.ts");
+    const commandsFolders = fs.readdirSync(commandsFolderPath).filter(value => {
+        if (value === "index.js" || value === "index.ts") return false;
+        return true;
+    });
 
     for (const commandFolder of commandsFolders) {
         const commandsPath = path.join(commandsFolderPath, commandFolder);
-        const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.ts'));
+        const commandFiles = fs.readdirSync(commandsPath).filter(file => {
+            if (file.endsWith('.ts') || file.endsWith('.js')) return true;
+            return false;
+        });
 
         for (const commandFile of commandFiles) {
             const filePath = path.join(commandsPath, commandFile);
-            const command:Command = (await import(filePath))[commandFile.replace(".ts", "")] as Command;
+            const command:Command = (await import(filePath))[commandFile.replace(".ts", "").replace(".js", "")] as Command;
             if (command) commands.push(command.data.toJSON());
         }
     }
