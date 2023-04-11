@@ -5,4 +5,4 @@ WORKDIR /workspace
 
 COPY . .
 
-EXPOSE 5000
+EXPOSE 80

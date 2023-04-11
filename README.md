@@ -47,9 +47,7 @@ npx @devcontainers/cli up --workspace-folder .
 
 **VOALÁ!** - O projeto já está sendo executado na sua máquina!
 
-<br>
 <hr>
-<br>
 
 ## Comandos do bot:
 
@@ -58,13 +56,13 @@ Abaixo segue uma lista dos comandos disponíveis do bot até o exato momento:
 ### Diversão
 
 |Comando|Descrição|
-| ------------- |:---------------------------------------:|
+|:-------------:|:---------------------------------------:|
 | ping | Responde com **pong**! |
 
 ### Meta
 
 |Comando|Descrição|
-| ------------- |:---------------------------------------:|
+|:-------------:|:---------------------------------------:|
 | contaservers | Retorna uma mensagem de quantos servidores o bot está presente (consultando o banco de dados) |
 | criador | Informa ao usuário quem é o criador do bot, em questão. |
 | minhafoto | Retorna ao usuário a sua foto de perfil do discord para poder baixar-lá futuramente. |
