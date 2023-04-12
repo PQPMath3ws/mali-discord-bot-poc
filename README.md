@@ -74,3 +74,26 @@ Existe uma instância desse bot (original) rodando em um servidor dedicado.
 Para convidar o bot original, basta clicar no link abaixo:
 
 [**Convidar o bot para o seu servidor**](http://129.148.50.54/)
+
+<hr>
+
+# DICA PARA O FORK DO PROJETO
+
+> OBS: Nesse projeto, vem incluso uma Action para realizar o deploy diretamente no servidor.
+
+Se você desejar realizar o ***FORK*** desse projeto, lembre-se de criar as variáveis ***SECRETS*** (para *Actions*) para que tudo funcione bem.
+
+A variáveis de ***SECRETS*** são necessárias para realizar o deploy de sua aplicação diretamente em um servidor de sua posse (ou que você tenha acesso).
+
+As variáveis necessárias são:
+
+```
+DISCORD_BOT_CLIENT_ID (correspondente ao ID da sua aplicação do discord)
+DISCORD_BOT_PUBLIC_KEY (correspondente a chave púlica da sua aplicação do discord)
+DISCORD_BOT_TOKEN (correspondente ao token do seu bot da sua aplicação pública do discord)
+POSTGRES_PASSWORD (correspondente a sua senha do postgres desejada)
+POSTGRES_USERNAME (correspondente ao seu usuário do postgres desejado)
+REMOTE_DOCKER_HOST (correspondente ao endereço/ip do host remoto para acesso via SSH)
+REMOTE_DOCKER_USER (correspondente ao usuário do host remoto para acesso via SSH)
+S_PRIVATE (correspondente a chave privada para acesso ao host remoto via SSH)
+```
