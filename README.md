@@ -95,5 +95,6 @@ POSTGRES_PASSWORD (correspondente a sua senha do postgres desejada)
 POSTGRES_USERNAME (correspondente ao seu usuário do postgres desejado)
 REMOTE_DOCKER_HOST (correspondente ao endereço/ip do host remoto para acesso via SSH)
 REMOTE_DOCKER_USER (correspondente ao usuário do host remoto para acesso via SSH)
+S_PASSPHRASE (correspondente a passphrase da sua chave SSH para acesso ao host remoto)
 S_PRIVATE (correspondente a chave privada para acesso ao host remoto via SSH)
 ```

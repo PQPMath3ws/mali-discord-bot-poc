@@ -27,6 +27,7 @@ jobs:
           host: ${{ secrets.REMOTE_DOCKER_HOST }}
           username: ${{ secrets.REMOTE_DOCKER_USER }}
           key: ${{ secrets.S_PRIVATE }}
+          passphrase: ${{ secrets.S_PASSPHRASE }}
           envs: APP_PORT,DISCORD_BOT_CLIENT_ID,DISCORD_BOT_PUBLIC_KEY,DISCORD_BOT_TOKEN,POSTGRES_USERNAME,POSTGRES_PASSWORD,POSTGRES_HOST,POSTGRES_PORT,POSTGRES_DATABASE,DATABASE_URL
           script: |
             docker container stop malibot-app malibot-postgres
