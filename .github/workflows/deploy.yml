@@ -31,6 +31,7 @@ jobs:
           envs: APP_PORT,DISCORD_BOT_CLIENT_ID,DISCORD_BOT_PUBLIC_KEY,DISCORD_BOT_TOKEN,POSTGRES_USERNAME,POSTGRES_PASSWORD,POSTGRES_HOST,POSTGRES_PORT,POSTGRES_DATABASE,DATABASE_URL
           script: |
             docker container stop malibot-app malibot-postgres
+            docker container rm malibot-app malibot-postgres
             sudo rm -f -r mali-discord-bot-poc
             git clone https://github.com/PQPMath3ws/mali-discord-bot-poc.git
             cd mali-discord-bot-poc
